@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Passa o token de Authorização para o PHP (Padrão Apache)
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Se o arquivo ou diretório existir de verdade, acessa ele (ex: imagens, css, js)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Se não existir, manda tudo para o index.php
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
